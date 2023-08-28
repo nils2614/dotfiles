@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mkdir -p $HOME/Qemu-Images
+machinename="${1}"
+qemu-img create -f qcow2 -o size=64G,compression_type=zstd,nocow=on ~/Qemu-Images/$machinename-Qemu.qcow2

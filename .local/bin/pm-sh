@@ -1,0 +1,3 @@
+#!/bin/sh
+
+podman run -it --name Podman-Shell --volume ~/Downloads:/opt/HostDownloads:z --rm $1

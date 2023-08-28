@@ -1,0 +1,25 @@
+# mine.toml
+
+spacing                 = 2
+padding                 = 1
+hide_ascii              = false
+prefer_small_ascii	    = true
+separator               = "-"
+separator_color         = "White"
+
+[palette]
+visible                 = false
+
+[randomize]
+key_color               = true
+separator_color         = false
+
+[keys]
+host = "HOST"
+kernel = "KERNEL"
+distro = "DISTRO"
+os = "OS"
+packages = "PKGS"
+shell = "SHELL"
+uptime = "UPTIME"
+cpu = "CPU"

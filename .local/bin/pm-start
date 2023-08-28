@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#PodmanImage="docker.io/library/alpine:latest"
+#PodmanImage="registry.fedoraproject.org/fedora:35"
+#PodmanImage="quay.io/centos/centos:stream9-development"
+#PodmanImage="docker.io/library/debian:bookworm"
+
+podman run -it \
+    --user=me \
+    --env DISPLAY=$DISPLAY \
+    --env WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+    --env XDG_RUNTIME_DIR=/run/user/1000 \
+    --env XDG_SESSION_TYPE=wayland \
+    --env PULSE_SERVER=/run/user/1000/pulse/native \
+    --volume /run/user/1000:/run/user/1000 \
+    --volume $HOME/Downloads:/opt/HostDownloads:z \
+    --device /dev/dri \
+    --name Podman-Shell \
+    --rm $PodmanImage

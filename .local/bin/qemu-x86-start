@@ -1,0 +1,48 @@
+#!/bin/sh
+
+QemuCLI="qemu-system-x86_64 \
+    -machine q35,accel=kvm \
+    -nodefaults \
+    -cpu host \
+    -smp 8,cores=4 \
+    -m 8G \
+    -display gtk,gl=on \
+    -device virtio-vga-gl \
+    -device virtio-tablet-pci \
+    -device virtio-keyboard-pci \
+    -device ich9-intel-hda -device hda-duplex \
+    -net nic,model=virtio \
+    -net user,hostfwd=tcp::10022-:22,hostfwd=tcp::8080-:80 \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/qemu/ovmf-x86_64.bin"
+
+#echo $QemuCLI
+DiskImage="${1}-Qemu.qcow2"
+
+
+if [ $1 = "-i" ] || [ $2 = "-i" ];
+then
+  echo "ISO only mode selected."
+  QemuCLI="${QemuCLI} -drive file=$HOME/Qemu-Images/install.iso,index=1,media=cdrom"
+
+elif [ $2 = "-d" ] || [ -z "$2" ];
+then
+  echo "Disk only mode selected."
+  QemuCLI="${QemuCLI} -drive file=$HOME/Qemu-Images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2"
+
+elif [ $2 = "-di" ] || [ $2 = "-id" ];
+then
+  echo "Disk and ISO mode selected."
+  QemuCLI="${QemuCLI} \
+  -drive file=$HOME/Qemu-Images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2 \
+  -drive file=$HOME/Qemu-Images/install.iso,index=1,media=cdrom"
+
+else
+  echo "Invalid input."
+  exit
+fi
+
+echo "Starting $DiskImage"
+
+/usr/bin/sh -c "$QemuCLI"
+
+echo "shutting down.."

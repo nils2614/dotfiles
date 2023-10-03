@@ -31,8 +31,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=2500
 SAVEHIST=5000
 
-setopt histignoredups histignorespace noglob
-unsetopt beep
+setopt hist_ignore_dups hist_ignore_space inc_append_history no_glob no_beep
 autoload -Uz compinit
 compinit
 

@@ -22,19 +22,19 @@ DiskImage="${1}-Qemu.qcow2"
 if [ $1 = "-i" ] || [ $2 = "-i" ];
 then
   echo "ISO only mode selected."
-  QemuCLI="${QemuCLI} -drive file=$HOME/Qemu-Images/install.iso,index=1,media=cdrom"
+  QemuCLI="${QemuCLI} -drive file=$HOME/.var/qemu-images/install.iso,index=1,media=cdrom"
 
 elif [ $2 = "-d" ] || [ -z "$2" ];
 then
   echo "Disk only mode selected."
-  QemuCLI="${QemuCLI} -drive file=$HOME/Qemu-Images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2"
+  QemuCLI="${QemuCLI} -drive file=$HOME/var/qemu-images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2"
 
 elif [ $2 = "-di" ] || [ $2 = "-id" ];
 then
   echo "Disk and ISO mode selected."
   QemuCLI="${QemuCLI} \
-  -drive file=$HOME/Qemu-Images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2 \
-  -drive file=$HOME/Qemu-Images/install.iso,index=1,media=cdrom"
+  -drive file=$HOME/.var/qemu-images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2 \
+  -drive file=$HOME/.var/qemu-images/install.iso,index=1,media=cdrom"
 
 else
   echo "Invalid input."

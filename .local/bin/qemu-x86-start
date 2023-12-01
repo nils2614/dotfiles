@@ -1,6 +1,6 @@
 #!/bin/sh
 
-QemuCLI="qemu-system-x86_64 \
+QemuCLI="GDK_BACKEND=x11 DISPLAY=:0 /app/bin/qemu-system-x86_64 \
     -machine q35,accel=kvm \
     -nodefaults \
     -cpu host \
@@ -13,35 +13,37 @@ QemuCLI="qemu-system-x86_64 \
     -device ich9-intel-hda -device hda-duplex \
     -net nic,model=virtio \
     -net user,hostfwd=tcp::10022-:22,hostfwd=tcp::8080-:80 \
-    -drive if=pflash,format=raw,readonly=on,file=/usr/share/qemu/ovmf-x86_64.bin"
+    -drive if=pflash,format=raw,readonly=on,file=/app/share/qemu/edk2-x86_64-code.fd"
 
-#echo $QemuCLI
+# echo $QemuCLI
 DiskImage="${1}-Qemu.qcow2"
 
+# Save home directory path
+USERHOME=$(getent passwd $(whoami) | cut -d: -f6)
 
 if [ $1 = "-i" ] || [ $2 = "-i" ];
 then
   echo "ISO only mode selected."
-  QemuCLI="${QemuCLI} -drive file=$HOME/.var/qemu-images/install.iso,index=1,media=cdrom"
+  QemuCLI="${QemuCLI} -drive file=$USERHOME/.var/qemu-images/install.iso,index=1,media=cdrom"
 
 elif [ $2 = "-d" ] || [ -z "$2" ];
 then
   echo "Disk only mode selected."
-  QemuCLI="${QemuCLI} -drive file=$HOME/var/qemu-images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2"
+  QemuCLI="${QemuCLI} -drive file=$USERHOME/.var/qemu-images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2"
 
 elif [ $2 = "-di" ] || [ $2 = "-id" ];
 then
   echo "Disk and ISO mode selected."
   QemuCLI="${QemuCLI} \
-  -drive file=$HOME/.var/qemu-images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2 \
-  -drive file=$HOME/.var/qemu-images/install.iso,index=1,media=cdrom"
+  -drive file=$USERHOME/.var/qemu-images/$DiskImage,index=0,media=disk,if=virtio,format=qcow2 \
+  -drive file=$USERHOME/.var/qemu-images/install.iso,index=1,media=cdrom"
 
 else
   echo "Invalid input."
   exit
 fi
 
-echo "Starting $DiskImage"
+echo "Starting..."
 
 /usr/bin/sh -c "$QemuCLI"
 

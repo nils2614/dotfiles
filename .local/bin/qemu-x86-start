@@ -1,6 +1,6 @@
 #!/bin/sh
 
-QemuCLI="GDK_BACKEND=x11 DISPLAY=:0 /app/bin/qemu-system-x86_64 \
+QemuCLI="flatpak run --command=/app/bin/qemu-system-x86_64 --env=GDK_BACKEND=x11 --env=DISPLAY=:0 org.gnome.Boxes \
     -machine q35,accel=kvm \
     -nodefaults \
     -cpu host \

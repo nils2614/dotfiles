@@ -20,11 +20,13 @@ elif [ $(/usr/bin/uname) = 'Darwin' ]; then
 
   alias ls='ls -h --color=auto'
   alias my-macchina='macchina -UKS -o host -o kernel -o operating-system -o packages -o shell -o uptime -o processor -t mine'
+
+  GPG_TTY=$(tty)
+  export GPG_TTY
 fi
 
 # General shell setup
 export PROMPT='%B%F{white}[%F{green}%m %F{blue}%1~%F{white}]%b%# %f'
-alias nano='nano -x'
 alias ll='ls -lA'
 
 HISTFILE=~/.zsh_history

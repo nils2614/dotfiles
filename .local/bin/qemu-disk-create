@@ -5,4 +5,4 @@ USERHOME=$(getent passwd $(whoami) | cut -d: -f6)
 
 mkdir -p $USERHOME/.var/qemu-images
 machinename="${1}"
-/usr/bin/qemu-img create -f qcow2 -o size=64G,compression_type=zstd,nocow=on $USERHOME/.var/qemu-images/$machinename-Qemu.qcow2
+/usr/bin/qemu-img create -f qcow2 -o size=128G,compression_type=zstd,nocow=on $USERHOME/.var/qemu-images/$machinename-Qemu.qcow2

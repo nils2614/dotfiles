@@ -28,7 +28,7 @@ fi
 # General shell setup
 export PROMPT='%B%F{white}[%F{green}%m %F{blue}%1~%F{white}]%b%# %f'
 alias ll='ls -lA'
-alias micro='micro -colorscheme simple'
+alias micro='micro -colorscheme simple -mouse false'
 
 HISTFILE=~/.zsh_history
 HISTSIZE=2500
